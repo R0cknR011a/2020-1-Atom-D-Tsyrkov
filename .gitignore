@@ -4,3 +4,4 @@ venv
 *.swo
 .idea
 __init__.py
+constants
