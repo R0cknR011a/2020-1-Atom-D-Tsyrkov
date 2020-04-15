@@ -33,43 +33,39 @@ class PyMatrix(Matrix):
                 result[i].append(self.matrix[i][j] + other.matrix[i][j])
         return result
 
+    @Matrix.check_add
     def __add__(self, other):
         if isinstance(other, Matrix):
             return self.add_matrix(other)
-        elif isinstance(other, (int, float)):
-            return self.number_operation(other, 'addition')
-        else:
-            raise TypeError('Second operand should be type of [other Matrix, int, float]')
+        return self.number_operation(other, 'addition')
 
+    @Matrix.check_input_number
     def __sub__(self, other):
-        if isinstance(other, (int, float)):
-            return self.number_operation(other, 'substraction')
+        return self.number_operation(other, 'substraction')
 
+    @Matrix.check_input_number
     def __mul__(self, other):
-        if isinstance(other, (int, float)):
-            return self.number_operation(other, 'multiplication')
+        return self.number_operation(other, 'multiplication')
 
+    @Matrix.check_input_number
     def __floordiv__(self, other):
-        if isinstance(other, (int, float)):
-            return self.number_operation(other, 'floor_division')
+        return self.number_operation(other, 'floor_division')
 
+    @Matrix.check_input_number
     def __truediv__(self, other):
-        if isinstance(other, (int, float)):
-            return self.number_operation(other, 'true_division')
+        return self.number_operation(other, 'true_division')
 
+    @Matrix.check_matmul
     def __matmul__(self, other):
-        if isinstance(other, Matrix):
-            result = []
-            for i in range(self.rows):
-                result.append([])
-                for j in range(len(other.matrix[0])):
-                    value = 0
-                    for k in range(self.columns):
-                        value += self.matrix[i][k] * other.matrix[k][j]
-                    result[i].append(value)
-            return result
-        else:
-            raise TypeError('Second operand must be Matrix class')
+        result = []
+        for i in range(self.rows):
+            result.append([])
+            for j in range(len(other.matrix[0])):
+                value = 0
+                for k in range(self.columns):
+                    value += self.matrix[i][k] * other.matrix[k][j]
+                result[i].append(value)
+        return result
 
     def check_in(self, number):
         for i in range(self.rows):
