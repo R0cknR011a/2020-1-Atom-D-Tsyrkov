@@ -67,6 +67,7 @@ class PyMatrix(Matrix):
                 result[i].append(value)
         return result
 
+    @Matrix.check_check_in
     def check_in(self, number):
         for i in range(self.rows):
             if number in self.matrix[i]:

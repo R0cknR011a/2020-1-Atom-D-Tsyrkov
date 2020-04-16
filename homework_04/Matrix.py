@@ -1,5 +1,7 @@
 class Matrix:
     def __init__(self, matrix):
+        if not isinstance(matrix, list) or not isinstance(matrix[0], list):
+            raise TypeError('Input value should be type of [list of lists]')
         self.matrix = matrix
         self.rows = len(matrix)
         self.columns = len(matrix[0])
@@ -64,4 +66,12 @@ class Matrix:
                     raise TypeError('Number of columns in 1 operand not equal number of rows of 2 operand')
             else:
                 raise TypeError('Second operand should be instance of Matrix')
+        return inner
+
+    def check_check_in(func):
+        def inner(self, other):
+            if isinstance(other, int):
+                return func(self, other)
+            else:
+                raise TypeError('Input number should be type of [int]')
         return inner
