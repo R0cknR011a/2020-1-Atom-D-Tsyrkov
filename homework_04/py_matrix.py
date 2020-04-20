@@ -78,10 +78,3 @@ class PyMatrix(Matrix):
         if len(point) != 2:
             raise ValueError('Input point must contain 2 values')
         return self.matrix[point[0]][point[1]]
-
-
-
-
-
-
-

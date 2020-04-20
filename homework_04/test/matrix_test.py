@@ -4,6 +4,7 @@ import unittest
 from py_matrix import PyMatrix
 from c_matrix import CMatrix
 import time
+from test.type_tester import TypeTester
 
 
 class TestCMatrix(unittest.TestCase):
@@ -19,7 +20,40 @@ class TestCMatrix(unittest.TestCase):
             arr.append([])
             for j in range(columns):
                 arr[i].append(random.randint(0, 100))
-        return arr
+        return arr 
+
+    def test_input(self):
+        tester = TypeTester([CMatrix, PyMatrix])
+
+        tester.arr_1 = 'str'
+        tester.error = TypeError
+        tester.check_init()
+
+        tester.arr_1 = [[], []]
+        tester.error = ValueError
+        tester.check_init()
+
+        tester.arr_1 = [[1], []]
+        tester.check_init()
+
+        tester.arr_1 = [[1, 2, 3], [4, 5, 6], [3, 'str', 5]]
+        tester.check_init()
+
+        tester.arr_1 = [[2, 4], [3, 5]]
+        tester.error = TypeError
+        operations = ['add', 'sub', 'mult', 'floor', 'true']
+        tester.number = 'str'
+        for op in operations:
+            tester.operation = op
+            tester.check_number_operation()
+
+        tester.arr_1 = [[2, 4, 35, 6, 6, 3, 6], [2, 4, 6, 7, 4, 2, 9], [3, 4, 7, 8, 4, 3, 3]]
+        tester.check_matmul()
+
+        tester.check_check_in()
+
+        tester.error = ValueError
+        tester.check_get_point()
 
     def test_transpose(self):
         rows = 1
@@ -193,7 +227,7 @@ class TestCMatrix(unittest.TestCase):
         rows = random.randint(1000, 2000)
         columns = random.randint(1000, 2000)
         arr = self.generate_initial_array(rows, columns)
-        
+
         point = (random.randint(0, rows - 1), random.randint(0, columns - 1))
         c_matrix = CMatrix(arr)
         c_start = time.time()
@@ -224,14 +258,14 @@ class TestCMatrix(unittest.TestCase):
         print('\nCheck in test (true):\nC: {}, Python: {}'.format(mid - start, end - mid))
 
         start = time.time()
-        py = py_matrix.check_in(777)
-        mid = time.time()
         c = c_matrix.check_in(777)
+        mid = time.time()
+        py = py_matrix.check_in(777)
         end = time.time()
         self.assertFalse(c)
         self.assertFalse(py)
-        print('\nCheck in test (true):\nC: {}, Python: {}'.format(mid - start, end - mid))
-        
+        print('\nCheck in test (false):\nC: {}, Python: {}'.format(mid - start, end - mid))
+
     def test_y_str(self):
         rows = random.randint(3, 10)
         columns = random.randint(3, 10)

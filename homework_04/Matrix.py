@@ -2,9 +2,17 @@ class Matrix:
     def __init__(self, matrix):
         if not isinstance(matrix, list) or not isinstance(matrix[0], list):
             raise TypeError('Input value should be type of [list of lists]')
-        self.matrix = matrix
+        if len(matrix[0]) == 0:
+            raise ValueError('Input matrix should NOT be empty')
         self.rows = len(matrix)
         self.columns = len(matrix[0])
+        for row in matrix:
+            if len(row) != self.columns:
+                raise ValueError('Input object is not a matrix')
+            for x in row:
+                if not isinstance(x, int):
+                    raise ValueError('All elements of matrix should type of [int]')
+        self.matrix = matrix
 
     def __str__(self):
         result = '\n\n'
